@@ -15,8 +15,8 @@ RUN apk add zip unzip \
 RUN composer global require hirak/prestissimo
 
 # create Laravel project
-RUN composer create-project --prefer-dist laravel/laravel /var/www/laravel
-WORKDIR /var/www/laravel
+RUN composer create-project --prefer-dist "laravel/laravel=5.6.*" /app
+WORKDIR /app
 RUN composer require predis/predis \
  && composer require barryvdh/laravel-debugbar --dev
 
