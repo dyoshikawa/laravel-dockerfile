@@ -1,4 +1,4 @@
-FROM php:7-alpine
+FROM php:7.2-alpine
 
 # install bash
 RUN apk -U add bash
