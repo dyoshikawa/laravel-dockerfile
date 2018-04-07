@@ -1,4 +1,4 @@
-FROM php:7.2-alpine
+FROM php:7.2-fpm-alpine
 
 # install bash
 RUN apk -U add bash
@@ -20,4 +20,15 @@ WORKDIR /app
 RUN composer require predis/predis \
  && composer require barryvdh/laravel-debugbar --dev
 
-CMD ["php", "artisan", "serve", "--host", "0.0.0.0"]
+# install nginx
+RUN apk add nginx
+ADD default.conf /etc/nginx/conf.d/default.conf
+RUN mkdir /run/nginx
+
+# setup www.conf
+RUN sed -i -e "s/www-data/nginx/g" /usr/local/etc/php-fpm.d/www.conf
+
+# add entrypoint
+ADD entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["sh", "/entrypoint.sh"]
