@@ -1,4 +1,5 @@
 FROM php:7.2-fpm-alpine
+MAINTAINER dyoshikawa
 
 # install bash
 RUN apk -U add bash
