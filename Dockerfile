@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine
+FROM php:7.2-alpine
 MAINTAINER dyoshikawa
 
 # install bash
@@ -19,17 +19,7 @@ RUN composer global require hirak/prestissimo
 RUN composer create-project --prefer-dist "laravel/laravel=5.6.*" /app
 WORKDIR /app
 RUN composer require predis/predis \
- && composer require barryvdh/laravel-debugbar --dev
+ && composer require barryvdh/laravel-debugbar --dev \
+ && composer require squizlabs/PHP_CodeSniffer --dev
 
-# install nginx
-RUN apk add nginx
-ADD default.conf /etc/nginx/conf.d/default.conf
-RUN mkdir /run/nginx
-
-# setup www.conf
-RUN sed -i -e "s/www-data/nginx/g" /usr/local/etc/php-fpm.d/www.conf
-
-# add entrypoint
-ADD entrypoint.sh /entrypoint.sh
-
-ENTRYPOINT ["sh", "/entrypoint.sh"]
+CMD ["php", "artisan", "--host", "0.0.0.0"]
