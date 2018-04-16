@@ -20,6 +20,6 @@ RUN composer create-project --prefer-dist "laravel/laravel=5.6.*" /app
 WORKDIR /app
 RUN composer require predis/predis \
  && composer require barryvdh/laravel-debugbar --dev \
- && composer require squizlabs/PHP_CodeSniffer --dev
+ && composer require squizlabs/php_codesniffer --dev
 
 CMD ["php", "artisan", "serve", "--host", "0.0.0.0"]
