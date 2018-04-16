@@ -22,4 +22,4 @@ RUN composer require predis/predis \
  && composer require barryvdh/laravel-debugbar --dev \
  && composer require squizlabs/PHP_CodeSniffer --dev
 
-CMD ["php", "artisan", "--host", "0.0.0.0"]
+CMD ["php", "artisan", "serve", "--host", "0.0.0.0"]
