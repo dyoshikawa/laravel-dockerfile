@@ -1,11 +1,14 @@
 FROM php:7.2-alpine
 MAINTAINER dyoshikawa
 
-# install bash
-RUN apk -U add bash
+# install packages
+RUN apk add -U bash curl-dev libxml2-dev postgresql-dev
 
 # install PHP extensions
-RUN docker-php-ext-install pdo_mysql mysqli mbstring
+RUN docker-php-source extract
+RUN cp /usr/src/php/ext/openssl/config0.m4 /usr/src/php/ext/openssl/config.m4
+RUN docker-php-ext-install pdo pdo_mysql mysqli pdo_pgsql pgsql mbstring curl \
+                           ctype xml json tokenizer openssl
 
 # install zip, unzip and composer
 RUN apk add zip unzip \
