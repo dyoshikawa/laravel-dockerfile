@@ -2,7 +2,7 @@ FROM php:7.2-alpine
 MAINTAINER dyoshikawa
 
 # install packages
-RUN apk add -U bash curl-dev libxml2-dev postgresql-dev
+RUN apk add -U --no-cache bash curl-dev libxml2-dev postgresql-dev
 
 # install PHP extensions
 RUN docker-php-source extract
