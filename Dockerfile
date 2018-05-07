@@ -24,8 +24,6 @@ WORKDIR /app
 RUN composer require predis/predis \
  && composer require barryvdh/laravel-debugbar --dev \
  && composer require squizlabs/php_codesniffer --dev
-RUN echo "web: vendor/bin/heroku-php-apache2 public" > Procfile
 RUN echo ".idea/" >> .gitignore
-ADD .env.devkit .env.devkit
 
 CMD ["php", "artisan", "serve", "--host", "0.0.0.0"]
