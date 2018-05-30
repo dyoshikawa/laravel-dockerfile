@@ -11,7 +11,7 @@ RUN docker-php-ext-install pdo pdo_mysql mysqli pdo_pgsql pgsql mbstring curl \
                            ctype xml json tokenizer openssl
 
 # install zip, unzip and composer
-RUN apk add zip unzip \
+RUN apk add --no-cache zip unzip \
  && curl -sS https://getcomposer.org/installer | php \
  && mv composer.phar /usr/local/bin/composer
 
@@ -19,11 +19,11 @@ RUN apk add zip unzip \
 RUN composer global require hirak/prestissimo
 
 # create Laravel project
-RUN composer create-project --prefer-dist "laravel/laravel=5.6.*" /app
-WORKDIR /app
-RUN composer require predis/predis \
- && composer require barryvdh/laravel-debugbar --dev \
- && composer require squizlabs/php_codesniffer --dev
-RUN echo ".idea/" >> .gitignore
+RUN composer create-project --prefer-dist "laravel/laravel=5.6.*" /myproject
+WORKDIR /myproject
+RUN composer require predis/predis
+RUN composer require barryvdh/laravel-debugbar --dev
+RUN composer require squizlabs/php_codesniffer --dev
+RUN composer require barryvdh/laravel-ide-helper --dev
 
-CMD ["php", "artisan", "serve", "--host", "0.0.0.0"]
+CMD php artisan serve --host 0.0.0.0
