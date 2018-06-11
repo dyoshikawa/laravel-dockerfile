@@ -1,8 +1,9 @@
+FROM node:10-alpine AS node
 FROM php:7.2-alpine
 MAINTAINER dyoshikawa
 
 # install packages
-RUN apk add -U --no-cache bash curl-dev libxml2-dev postgresql-dev libpng-dev
+RUN apk add -U --no-cache bash git curl-dev libxml2-dev postgresql-dev libpng-dev
 
 # install PHP extensions
 RUN docker-php-source extract
@@ -25,5 +26,10 @@ RUN composer require predis/predis
 RUN composer require barryvdh/laravel-debugbar --dev
 RUN composer require squizlabs/php_codesniffer --dev
 RUN composer require barryvdh/laravel-ide-helper --dev
+
+# add node.js npm
+COPY --from=node /usr/local /usr/local
+RUN apk add python make g++
+RUN rm /usr/local/bin/yarn /usr/local/bin/yarnpkg
 
 CMD php artisan serve --host 0.0.0.0
