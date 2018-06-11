@@ -29,7 +29,7 @@ RUN composer require barryvdh/laravel-ide-helper --dev
 
 # add node.js npm
 COPY --from=node /usr/local /usr/local
-RUN apk add python make g++
+RUN apk add --no-cache python make g++
 RUN rm /usr/local/bin/yarn /usr/local/bin/yarnpkg
 
 CMD php artisan serve --host 0.0.0.0
