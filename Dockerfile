@@ -18,6 +18,8 @@ RUN apk add --no-cache zip unzip \
 
 # install composer plugin
 RUN composer global require hirak/prestissimo
+# config for Javanese developper
+RUN composer config -g repositories.packagist composer https://packagist.jp
 
 # create Laravel project
 RUN composer create-project --prefer-dist "laravel/laravel=5.6.*" /myproject
