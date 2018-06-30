@@ -3,7 +3,7 @@ FROM php:7.2-alpine
 MAINTAINER dyoshikawa
 
 # install packages
-RUN apk add -U --no-cache
+RUN apk add -U --no-cache \
               bash \
               git \
               curl-dev \
