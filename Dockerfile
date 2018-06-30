@@ -9,7 +9,9 @@ RUN apk add -U --no-cache
               curl-dev \
               libxml2-dev \
               postgresql-dev \
-              libpng-dev
+              libpng-dev \
+              zip \
+              unzip
 
 # install PHP extensions
 RUN docker-php-source extract
@@ -26,14 +28,15 @@ RUN docker-php-ext-install pdo\
                            json \
                            tokenizer \
                            openssl \
-                           gd
+                           gd \
+                           zip
 
-# install zip, unzip and composer
-RUN apk add --no-cache zip unzip \
- && curl -sS https://getcomposer.org/installer | php \
+# install composer
+RUN curl -sS https://getcomposer.org/installer | php \
  && mv composer.phar /usr/local/bin/composer
 
 # install composer plugin
+RUN composer global require laravel/installer
 RUN composer global require hirak/prestissimo
 
 # create Laravel project
