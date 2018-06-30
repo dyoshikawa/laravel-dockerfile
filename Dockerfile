@@ -1,5 +1,5 @@
 FROM node:10-alpine AS node
-FROM php:7.2-alpine
+FROM php:7.2-fpm-alpine
 MAINTAINER dyoshikawa
 
 # install packages
@@ -53,4 +53,5 @@ COPY --from=node /usr/local /usr/local
 RUN apk add --no-cache python make g++
 RUN rm /usr/local/bin/yarn /usr/local/bin/yarnpkg
 
+ENTRYPOINT []
 CMD php artisan serve --host 0.0.0.0
