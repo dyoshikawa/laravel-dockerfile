@@ -37,6 +37,7 @@ RUN curl -sS https://getcomposer.org/installer | php \
 
 # install composer plugin
 RUN composer global require laravel/installer
+ENV PATH=~/.composer/vendor/bin:$PATH
 RUN composer global require hirak/prestissimo
 
 # create Laravel project
