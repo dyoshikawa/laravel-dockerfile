@@ -46,6 +46,7 @@ RUN apk add --no-cache python make g++
 RUN rm /usr/local/bin/yarn /usr/local/bin/yarnpkg
 
 RUN apk add shadow
+RUN groupadd -g 1000 dyoshikawa
 RUN useradd -u 1000 -g 1000 dyoshikawa
 RUN mkdir /work && chown 1000:1000 -R /work
 WORKDIR /work
