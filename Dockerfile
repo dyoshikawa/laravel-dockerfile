@@ -48,6 +48,7 @@ RUN rm /usr/local/bin/yarn /usr/local/bin/yarnpkg
 RUN apk add shadow
 RUN groupadd -g 1000 dyoshikawa
 RUN useradd -u 1000 -g 1000 dyoshikawa
+RUN mkdir /home/dyoshikawa && chown 1000:1000 -R /work
 RUN mkdir /work && chown 1000:1000 -R /work
 WORKDIR /work
 USER dyoshikawa
