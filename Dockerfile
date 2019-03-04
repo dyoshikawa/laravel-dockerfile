@@ -1,5 +1,5 @@
 FROM node:10-alpine AS node
-FROM php:7.2-fpm-alpine
+FROM php:7.3-fpm-alpine
 MAINTAINER dyoshikawa
 
 # install packages
@@ -11,6 +11,7 @@ RUN apk add -U --no-cache \
     postgresql-dev \
     libpng-dev \
     zip \
+    libzip-dev \
     unzip
 
 # install PHP extensions
