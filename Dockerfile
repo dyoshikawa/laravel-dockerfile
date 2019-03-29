@@ -10,6 +10,7 @@ RUN apk add -U --no-cache \
     libxml2-dev \
     postgresql-dev \
     libpng-dev \
+    libjpeg-turbo-dev \
     zip \
     libzip-dev \
     unzip
@@ -17,6 +18,7 @@ RUN apk add -U --no-cache \
 # install PHP extensions
 RUN docker-php-source extract
 RUN cp /usr/src/php/ext/openssl/config0.m4 /usr/src/php/ext/openssl/config.m4
+RUN docker-php-ext-configure gd --with-png-dir=/usr/include --with-jpeg-dir=/usr/include
 RUN docker-php-ext-install pdo\
     pdo_mysql \
     mysqli \
@@ -40,6 +42,12 @@ RUN curl -sS https://getcomposer.org/installer | php \
 RUN composer global require laravel/installer
 ENV PATH=~/.composer/vendor/bin:$PATH
 RUN composer global require hirak/prestissimo
+
+# install dockerize
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 # add node.js npm
 COPY --from=node /usr/local /usr/local
