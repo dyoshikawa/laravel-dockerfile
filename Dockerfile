@@ -34,7 +34,8 @@ RUN docker-php-ext-install pdo\
     openssl \
     gd \
     zip \
-    gmp
+    gmp \
+    bcmath
 
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php \
