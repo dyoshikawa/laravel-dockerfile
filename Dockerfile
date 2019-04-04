@@ -13,7 +13,8 @@ RUN apk add -U --no-cache \
     libjpeg-turbo-dev \
     zip \
     libzip-dev \
-    unzip
+    unzip \
+    gmp-dev
 
 # install PHP extensions
 RUN docker-php-source extract
@@ -32,7 +33,8 @@ RUN docker-php-ext-install pdo\
     tokenizer \
     openssl \
     gd \
-    zip
+    zip \
+    gmp
 
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php \
@@ -54,7 +56,7 @@ COPY --from=node /usr/local /usr/local
 RUN apk add --no-cache python make g++
 RUN rm /usr/local/bin/yarn /usr/local/bin/yarnpkg
 
-RUN apk add shadow
+RUN apk add sudo shadow
 RUN groupadd -g 1000 dyoshikawa
 RUN useradd -u 1000 -g 1000 dyoshikawa
 RUN mkdir /home/dyoshikawa && chown 1000:1000 -R /home/dyoshikawa
