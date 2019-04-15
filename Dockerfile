@@ -37,6 +37,16 @@ RUN docker-php-ext-install pdo\
     gmp \
     bcmath
 
+# install php-ast
+RUN apk add --no-cache gcc g++ make autoconf
+RUN git clone https://github.com/nikic/php-ast.git \
+    && cd php-ast \
+    && phpize \
+    && ./configure \
+    && make install \
+    && echo 'extension=ast.so' > /usr/local/etc/php/php.ini \
+    && cd .. && rm -rf php-ast
+
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
@@ -57,6 +67,7 @@ COPY --from=node /usr/local /usr/local
 RUN apk add --no-cache python make g++
 RUN rm /usr/local/bin/yarn /usr/local/bin/yarnpkg
 
+# add user
 RUN apk add sudo shadow
 RUN groupadd -g 1000 dyoshikawa
 RUN useradd -u 1000 -g 1000 dyoshikawa
