@@ -12,7 +12,8 @@ RUN apk add -U --no-cache \
     libpng-dev \
     libjpeg-turbo-dev \
     zip \
-    unzip
+    unzip \
+    gmp-dev
 
 # install PHP extensions
 RUN docker-php-source extract
