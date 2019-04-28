@@ -62,6 +62,9 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
+# install supervisor
+RUN apk add supervisor
+
 # add node.js npm
 COPY --from=node /usr/local /usr/local
 RUN apk add --no-cache python make g++
