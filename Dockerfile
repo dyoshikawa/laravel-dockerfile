@@ -13,7 +13,8 @@ RUN apk add -U --no-cache \
     libjpeg-turbo-dev \
     zip \
     libzip-dev \
-    unzip
+    unzip \
+    gmp-dev
 
 # install PHP extensions
 RUN docker-php-source extract
@@ -32,7 +33,19 @@ RUN docker-php-ext-install pdo\
     tokenizer \
     openssl \
     gd \
-    zip
+    zip \
+    gmp \
+    bcmath
+
+# install php-ast
+RUN apk add --no-cache gcc g++ make autoconf
+RUN git clone https://github.com/nikic/php-ast.git \
+    && cd php-ast \
+    && phpize \
+    && ./configure \
+    && make install \
+    && echo 'extension=ast.so' > /usr/local/etc/php/php.ini \
+    && cd .. && rm -rf php-ast
 
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php \
@@ -49,14 +62,21 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
+# install supervisor
+RUN apk add supervisor
+
 # add node.js npm
 COPY --from=node /usr/local /usr/local
 RUN apk add --no-cache python make g++
 RUN rm /usr/local/bin/yarn /usr/local/bin/yarnpkg
 
-RUN apk add shadow
+# add user
+RUN apk add sudo shadow
 RUN groupadd -g 1000 dyoshikawa
 RUN useradd -u 1000 -g 1000 dyoshikawa
+RUN sed -e 's/# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/g' \
+    -i /etc/sudoers
+RUN sed -e 's/^wheel:\(.*\)/wheel:\1,dyoshikawa/g' -i /etc/group
 RUN mkdir /home/dyoshikawa && chown 1000:1000 -R /home/dyoshikawa
 RUN mkdir /work && chown 1000:1000 -R /work
 WORKDIR /work
