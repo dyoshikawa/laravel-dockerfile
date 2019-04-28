@@ -31,7 +31,8 @@ RUN docker-php-ext-install pdo\
     tokenizer \
     openssl \
     gd \
-    zip
+    zip \
+    gmp
 
 # install php-ast
 RUN apk add --no-cache gcc g++ make autoconf
