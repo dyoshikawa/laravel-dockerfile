@@ -60,17 +60,6 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-# supervisor nginx
-RUN apk add --no-cache supervisor \
-    && mkdir /run/supervisor \
-    && apk add --no-cache nginx \
-    && mkdir /run/nginx
-
-# add node.js npm
-COPY --from=node /usr/local /usr/local
-RUN apk add --no-cache python make g++ \
-    && rm /usr/local/bin/yarn /usr/local/bin/yarnpkg
-
 # add user
 RUN apk add sudo shadow \
     && groupadd -g 1000 dyoshikawa \
@@ -80,6 +69,20 @@ RUN apk add sudo shadow \
     && sed -e 's/^wheel:\(.*\)/wheel:\1,dyoshikawa/g' -i /etc/group \
     && mkdir /home/dyoshikawa && chown 1000:1000 -R /home/dyoshikawa \
     && mkdir /work && chown 1000:1000 -R /work
+
+# supervisor nginx
+RUN apk add --no-cache supervisor \
+    && mkdir /run/supervisor \
+    && apk add --no-cache nginx \
+    && mkdir /run/nginx \
+    && chown -R 1000:1000 /run/nginx \
+    && chown -R 1000:1000 /var/lib/nginx
+
+# add node.js npm
+COPY --from=node /usr/local /usr/local
+RUN apk add --no-cache python make g++ \
+    && rm /usr/local/bin/yarn /usr/local/bin/yarnpkg
+
 WORKDIR /work
 USER dyoshikawa
 
