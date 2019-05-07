@@ -15,6 +15,7 @@ RUN apk add -U --no-cache \
     libzip-dev \
     unzip \
     gmp-dev
+    exif
 
 # install PHP extensions
 RUN docker-php-source extract \
