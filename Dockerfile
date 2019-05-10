@@ -82,7 +82,8 @@ RUN apk add --no-cache supervisor \
 # add node.js npm
 COPY --from=node /usr/local /usr/local
 RUN apk add --no-cache python make g++ \
-    && rm /usr/local/bin/yarn /usr/local/bin/yarnpkg
+    && rm /usr/local/bin/yarn /usr/local/bin/yarnpkg \
+    && npm i -g yarn
 
 WORKDIR /work
 USER dyoshikawa
