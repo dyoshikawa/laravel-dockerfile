@@ -14,8 +14,7 @@ RUN apk add -U --no-cache \
     zip \
     libzip-dev \
     unzip \
-    gmp-dev \
-    exif
+    gmp-dev
 
 # install PHP extensions
 RUN docker-php-source extract \
@@ -36,7 +35,9 @@ RUN docker-php-source extract \
     gd \
     zip \
     gmp \
-    bcmath
+    bcmath \
+    exif
+
 
 # install php-ast
 RUN apk add --no-cache gcc g++ make autoconf \
