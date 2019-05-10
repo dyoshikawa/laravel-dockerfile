@@ -14,7 +14,7 @@ RUN apk add -U --no-cache \
     zip \
     libzip-dev \
     unzip \
-    gmp-dev
+    gmp-dev \
     exif
 
 # install PHP extensions
