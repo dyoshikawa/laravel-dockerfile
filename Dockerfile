@@ -80,6 +80,9 @@ RUN apk add --no-cache supervisor \
     && chown -R 1000:1000 /run/nginx \
     && chown -R 1000:1000 /var/lib/nginx
 
+# basic auth
+RUN apk add --no-cache apache2-utils
+
 # add node.js npm
 COPY --from=node /usr/local /usr/local
 RUN apk add --no-cache python make g++ \
